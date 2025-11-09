@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Material Upload</title>
+</head>
+<body>
+    <h1>Test Material Upload</h1>
+    
+    <form id="uploadForm">
+        <div>
+            <label>Title: <input type="text" id="title" value="Test Material" required></label>
+        </div>
+        <div>
+            <label>File: <input type="file" id="file" accept=".pdf,.docx,.txt" required></label>
+        </div>
+        <div>
+            <label>Course ID: <input type="number" id="courseId" value="1" required></label>
+        </div>
+        <div>
+            <label>Token: <input type="text" id="token" placeholder="Paste your access token" required></label>
+        </div>
+        <button type="submit">Upload</button>
+    </form>
+    
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('title').value;
+            const file = document.getElementById('file').files[0];
+            const courseId = document.getElementById('courseId').value;
+            const token = document.getElementById('token').value;
+            
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('file', file);
+            
+            console.log('Uploading:', { title, fileName: file.name, courseId });
+            
+            try {
+                const response = await fetch(`http://localhost:8000/courses/${courseId}/materials`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                        // Don't set Content-Type - let browser handle it
+                    },
+                    body: formData
+                });
+                
+                const data = await response.json();
+                console.log('Response:', data);
+                
+                if (response.ok) {
+                    document.getElementById('result').innerHTML = 
+                        '<p style="color: green;">Upload successful: ' + JSON.stringify(data) + '</p>';
+                } else {
+                    document.getElementById('result').innerHTML = 
+                        '<p style="color: red;">Upload failed: ' + JSON.stringify(data) + '</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('result').innerHTML = 
+                    '<p style="color: red;">Error: ' + error.message + '</p>';
+            }
+        });
+    </script>
+</body>
+</html>
