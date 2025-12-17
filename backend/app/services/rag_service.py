@@ -129,31 +129,37 @@ class RAGService:
         print(f"Found {len(course_stores)} vector stores for course {course_id}")
         
         if not course_stores:
-            print("No vector stores found!")
+            print(f"No vector stores found for course {course_id}!")
+            print(f"Searched in: {self.vector_store_path}")
+            print(f"Pattern: course_{course_id}_*.index")
             return []
         
         all_results = []
         
         for store_path in course_stores:
-            # Extract the full store ID from filename (everything after "course_{course_id}_")
-            store_filename = store_path.stem  # e.g., "course_1_abc123.index"
-            store_id = store_filename.replace(f"course_{course_id}_", "").replace(".index", "")
+            # Extract the vector_store_id from filename
+            # Filename format: "course_{course_id}_{material_title}.index"
+            # We need the full ID: "course_{course_id}_{material_title}" (which is store_path.stem)
+            vector_store_id = store_path.stem  # This is the full ID stored in database
             
-            print(f"Checking store: {store_filename}, extracted ID: {store_id}")
+            print(f"Processing store file: {store_path.name}")
+            print(f"Extracted vector_store_id: {vector_store_id}")
             
             # If material filtering is enabled, check if this store is allowed
-            if allowed_store_ids is not None and store_id not in allowed_store_ids:
-                print(f"Store {store_id} not in allowed list, skipping")
-                continue
-            
-            print(f"Processing store: {store_id}")
+            if allowed_store_ids is not None:
+                if vector_store_id not in allowed_store_ids:
+                    print(f"Store {vector_store_id} not in allowed list, skipping")
+                    continue
+                print(f"Store {vector_store_id} is in allowed list, processing")
                 
             try:
                 # Load index and metadata
                 index = faiss.read_index(str(store_path))
-                metadata_path = store_path.with_suffix('.pkl').with_name(
-                    store_path.stem.replace('.index', '') + '_metadata.pkl'
-                )
+                metadata_path = self.vector_store_path / f"{vector_store_id}_metadata.pkl"
+                
+                if not metadata_path.exists():
+                    print(f"Metadata file not found: {metadata_path}")
+                    continue
                 
                 with open(metadata_path, 'rb') as f:
                     metadata = pickle.load(f)
@@ -161,11 +167,14 @@ class RAGService:
                 # Generate query embedding
                 query_embedding = await ollama_service.embed(query)
                 if not query_embedding:
+                    print("Failed to generate query embedding")
                     continue
                 
                 # Search
                 query_vector = np.array([query_embedding]).astype('float32')
                 distances, indices = index.search(query_vector, min(top_k, len(metadata["chunks"])))
+                
+                print(f"Found {len(indices[0])} results from {vector_store_id}")
                 
                 # Collect results
                 for i, idx in enumerate(indices[0]):
@@ -180,10 +189,13 @@ class RAGService:
                         })
             except Exception as e:
                 print(f"Error searching vector store {store_path}: {str(e)}")
+                import traceback
+                traceback.print_exc()
                 continue
         
         # Sort by score and return top k
         all_results.sort(key=lambda x: x["score"], reverse=True)
+        print(f"Returning {len(all_results[:top_k])} total results")
         return all_results[:top_k]
 
     async def query(self, query: str, course_id: int, conversation_history: List[Dict] = None, material_ids: List[int] = None) -> Dict:

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ClipboardList } from 'lucide-react'
+import { ClipboardList, Trophy } from 'lucide-react'
 import Layout from '../../components/Layout'
 import { quizAPI, authAPI } from '../../utils/api'
 import { useAuthStore } from '../../store/authStore'
@@ -42,10 +42,10 @@ const StudentQuiz = () => {
         quiz_id: parseInt(quizId),
         answers: formattedAnswers
       })
-      
+
       setResult(response.data)
       setSubmitted(true)
-      
+
       // Fetch updated user data to get new competency score
       try {
         const userResponse = await authAPI.getMe()
@@ -54,7 +54,7 @@ const StudentQuiz = () => {
       } catch (err) {
         console.error('Failed to refresh user data:', err)
       }
-      
+
       // Redirect to course page with results tab after 3 seconds
       setTimeout(() => {
         navigate(`/student/course/${quiz.course_id}?tab=results`)
@@ -77,21 +77,21 @@ const StudentQuiz = () => {
 
             <div className="space-y-6">
               {quiz.questions.map((question, index) => (
-                <div key={question.id} className="p-4 bg-gray-50 rounded-lg">
-                  <p className="font-semibold mb-3">
+                <div key={question.id} className="p-6 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-gray-100 shadow-md">
+                  <p className="font-bold mb-4 text-lg text-gray-900">
                     {index + 1}. {question.question_text}
                   </p>
 
                   {question.options?.map((option, idx) => (
-                    <label key={idx} className="flex items-center space-x-2 mb-2 cursor-pointer">
+                    <label key={idx} className="flex items-center space-x-3 mb-3 cursor-pointer group">
                       <input
                         type="radio"
                         name={`question-${question.id}`}
                         value={option}
-                        onChange={(e) => setAnswers({...answers, [question.id]: e.target.value})}
-                        className="w-4 h-4"
+                        onChange={(e) => setAnswers({ ...answers, [question.id]: e.target.value })}
+                        className="w-5 h-5 text-blue-600 focus:ring-blue-500 focus:ring-2 cursor-pointer"
                       />
-                      <span>{option}</span>
+                      <span className="text-gray-700 group-hover:text-gray-900 transition-colors">{option}</span>
                     </label>
                   ))}
                 </div>
@@ -107,18 +107,23 @@ const StudentQuiz = () => {
             </button>
           </>
         ) : (
-          <div className="text-center py-12">
-            <h3 className="text-2xl font-bold text-green-600 mb-4">Quiz Submitted Successfully!</h3>
+          <div className="text-center py-16">
+            <div className="mb-6">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-4 shadow-lg">
+                <Trophy className="w-10 h-10 text-white" />
+              </div>
+              <h3 className="text-3xl font-bold text-green-600 mb-2">Quiz Submitted Successfully!</h3>
+            </div>
             {result && (
-              <div className="mt-6 space-y-4">
-                <div className="text-6xl font-bold text-blue-600">
+              <div className="mt-8 space-y-6">
+                <div className="text-7xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                   {result.percentage}%
                 </div>
-                <p className="text-xl text-gray-700">
+                <p className="text-2xl text-gray-700 font-semibold">
                   Score: {result.score} / {result.max_score}
                 </p>
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                  <p className="text-gray-600">
+                <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100">
+                  <p className="text-gray-700 font-medium">
                     Redirecting to results page...
                   </p>
                 </div>

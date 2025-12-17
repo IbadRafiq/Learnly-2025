@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { 
-  BookOpen, 
-  Brain, 
-  Trophy, 
-  Users, 
-  Sparkles, 
+import {
+  BookOpen,
+  Brain,
+  Trophy,
+  Users,
+  Sparkles,
   ArrowRight,
   CheckCircle,
   GraduationCap,
@@ -74,18 +74,18 @@ const Landing = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-lg border-b border-gray-200 z-50">
+      <nav className="fixed top-0 w-full bg-white/90 backdrop-blur-2xl border-b border-gray-100/50 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center gap-2">
-              <div className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg">
+              <div className="p-2 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-xl shadow-lg">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
               <span className="text-2xl font-bold gradient-text">LEARNLY</span>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               <button
                 onClick={() => navigate('/login')}
                 className="btn-secondary"
@@ -116,18 +116,18 @@ const Landing = () => {
               <Sparkles className="w-4 h-4 text-blue-600" />
               <span className="text-sm font-medium text-blue-700">AI-Powered Learning Platform</span>
             </div>
-            
+
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               <span className="gradient-text">Virtual AI Co-Instructor</span>
               <br />
               <span className="text-gray-800">For Modern Education</span>
             </h1>
-            
+
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Experience personalized learning with cutting-edge AI technology. 
+              Experience personalized learning with cutting-edge AI technology.
               Get instant answers, adaptive quizzes, and comprehensive analytics.
             </p>
-            
+
             <div className="flex gap-4 justify-center">
               <button
                 onClick={() => navigate('/signup')}
@@ -226,7 +226,7 @@ const Landing = () => {
                 Why Choose <span className="gradient-text">LEARNLY?</span>
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                Our platform combines the best of AI technology with proven educational methods 
+                Our platform combines the best of AI technology with proven educational methods
                 to deliver a superior learning experience.
               </p>
               <div className="space-y-4">

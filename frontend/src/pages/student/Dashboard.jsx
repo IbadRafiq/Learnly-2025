@@ -42,31 +42,31 @@ const StudentDashboard = () => {
     : 0
 
   const stats = [
-    { 
-      icon: BookOpen, 
-      value: courses.length, 
-      label: 'Enrolled Courses', 
+    {
+      icon: BookOpen,
+      value: courses.length,
+      label: 'Enrolled Courses',
       color: 'blue',
       gradient: 'from-blue-500 to-cyan-500'
     },
-    { 
-      icon: Trophy, 
-      value: attempts.length, 
-      label: 'Quizzes Taken', 
+    {
+      icon: Trophy,
+      value: attempts.length,
+      label: 'Quizzes Taken',
       color: 'yellow',
       gradient: 'from-yellow-500 to-orange-500'
     },
-    { 
-      icon: TrendingUp, 
-      value: `${avgScore.toFixed(1)}%`, 
-      label: 'Average Score', 
+    {
+      icon: TrendingUp,
+      value: `${avgScore.toFixed(1)}%`,
+      label: 'Average Score',
       color: 'green',
       gradient: 'from-green-500 to-emerald-500'
     },
-    { 
-      icon: Award, 
-      value: '85%', 
-      label: 'Goal Progress', 
+    {
+      icon: Award,
+      value: '85%',
+      label: 'Goal Progress',
       color: 'purple',
       gradient: 'from-purple-500 to-pink-500'
     },
@@ -78,13 +78,19 @@ const StudentDashboard = () => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl"
+        className="mb-8 p-8 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white shadow-2xl relative overflow-hidden"
       >
-        <div className="flex items-center gap-3 mb-2">
-          <Sparkles className="w-6 h-6" />
-          <h2 className="text-2xl font-bold">Welcome back!</h2>
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+        <div className="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
+              <Sparkles className="w-6 h-6" />
+            </div>
+            <h2 className="text-3xl font-bold">Welcome back!</h2>
+          </div>
+          <p className="text-blue-100 text-lg">Continue your learning journey with AI-powered assistance</p>
         </div>
-        <p className="text-blue-100">Continue your learning journey with AI-powered assistance</p>
       </motion.div>
 
       {/* Stats Grid */}

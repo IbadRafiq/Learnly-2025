@@ -1,49 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  * {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
   body {
-    @apply bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 text-gray-900;
+    @apply bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 text-gray-900;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
 @layer components {
   .glass {
-    @apply bg-white/90 backdrop-blur-xl border border-white/30 shadow-2xl;
+    @apply bg-white/95 backdrop-blur-2xl border border-white/40 shadow-2xl;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%);
   }
-  
+
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200 shadow-sm;
+    @apply px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 shadow-md;
+    letter-spacing: 0.01em;
   }
-  
+
   .btn-primary {
-    @apply btn bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 active:scale-95 shadow-lg hover:shadow-xl;
+    @apply btn bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 active:scale-[0.98] shadow-lg hover:shadow-2xl;
+    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.3), 0 8px 10px -6px rgba(79, 70, 229, 0.2);
   }
-  
+
+  .btn-primary:hover {
+    box-shadow: 0 20px 35px -5px rgba(79, 70, 229, 0.4), 0 10px 15px -6px rgba(79, 70, 229, 0.3);
+    transform: translateY(-2px);
+  }
+
   .btn-secondary {
-    @apply btn bg-gray-200 text-gray-700 hover:bg-gray-300 active:scale-95;
+    @apply btn bg-white text-gray-700 hover:bg-gray-50 active:scale-[0.98] border-2 border-gray-200 hover:border-gray-300;
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08);
   }
-  
+
   .input {
-    @apply px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white shadow-sm hover:border-gray-400;
+    @apply px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all bg-white shadow-sm hover:border-gray-300;
+    font-size: 0.95rem;
   }
-  
+
   .card {
-    @apply bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300 border border-gray-100;
+    @apply bg-white rounded-2xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 border border-gray-100/50;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 8px -2px rgba(0, 0, 0, 0.04);
   }
-  
+
+  .card:hover {
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.12), 0 10px 20px -5px rgba(0, 0, 0, 0.08);
+  }
+
   .card-glass {
-    @apply glass rounded-xl p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1;
+    @apply glass rounded-2xl p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1;
   }
 
   .gradient-text {
-    @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent;
+    font-weight: 700;
   }
 
   .stat-card {
-    @apply bg-gradient-to-br from-white to-gray-50 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200;
+    @apply bg-gradient-to-br from-white via-white to-gray-50/50 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100/50;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+  }
+
+  .stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.12), 0 10px 20px -5px rgba(0, 0, 0, 0.08);
   }
 }
 
@@ -53,6 +83,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -92,8 +123,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Gradient backgrounds */
@@ -149,14 +185,14 @@
 
 /* Enhanced Card Shadows */
 .card-elevated {
-  box-shadow: 
+  box-shadow:
     0 1px 3px 0 rgba(0, 0, 0, 0.1),
     0 1px 2px 0 rgba(0, 0, 0, 0.06),
     0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 .card-elevated:hover {
-  box-shadow: 
+  box-shadow:
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05),
     0 0 0 1px rgba(0, 0, 0, 0.05);
@@ -168,10 +204,12 @@
     transform: scale(0.95);
     opacity: 1;
   }
+
   50% {
     transform: scale(1);
     opacity: 0.7;
   }
+
   100% {
     transform: scale(0.95);
     opacity: 1;
@@ -187,6 +225,7 @@
   0% {
     background-position: -1000px 0;
   }
+
   100% {
     background-position: 1000px 0;
   }
@@ -194,13 +233,11 @@
 
 .shimmer {
   animation: shimmer 2s infinite;
-  background: linear-gradient(
-    to right,
-    #f6f7f8 0%,
-    #edeef1 20%,
-    #f6f7f8 40%,
-    #f6f7f8 100%
-  );
+  background: linear-gradient(to right,
+      #f6f7f8 0%,
+      #edeef1 20%,
+      #f6f7f8 40%,
+      #f6f7f8 100%);
   background-size: 1000px 100%;
 }
 
@@ -219,6 +256,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
